@@ -1,6 +1,6 @@
 {
   "name": "ai-wiki-template",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Static-site template for OSK LLM Wikis. Tailwind v4, themable, search + knowledge graph, deploys to GitHub Pages or Cloudflare Pages.",
   "type": "module",
