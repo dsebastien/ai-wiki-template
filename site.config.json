@@ -23,10 +23,5 @@
   "heroHeadline": "Example Wiki",
 
   "featured": [],
-  "ctaHero": { "label": "Browse all articles", "href": "/browse.html" },
-
-  "ctaTags": [],
-  "ctaMax": 4,
-  "ctaSource": "",
-  "ctaProducts": []
+  "ctaHero": { "label": "Browse all articles", "href": "/browse.html" }
 }

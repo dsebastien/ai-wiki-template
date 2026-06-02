@@ -41,13 +41,7 @@ Everything site-specific lives in `site.config.json` at the repo root. The build
   "ctaHero": {
     "label": "Browse all articles",
     "href": "/browse.html"
-  },
-
-  // CTAs (see ctas.md for full details)
-  "ctaTags": [],
-  "ctaMax": 4,
-  "ctaSource": "",
-  "ctaProducts": []
+  }
 }
 ```
 
@@ -93,17 +87,6 @@ Everything site-specific lives in `site.config.json` at the repo root. The build
 | `ctaHero.label` | string | — | Primary button label |
 | `ctaHero.href` | string | — | Primary button link |
 | `ctaHero.secondary` | `{label, href}` | — | Optional ghost button |
-
-### CTAs
-
-See the dedicated [CTAs](ctas.md) page. Summary:
-
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `ctaProducts` | array | `[]` | Explicit, static CTA cards. When non-empty, used as-is |
-| `ctaTags` | string[] | `[]` | When `ctaProducts` is empty and `ctaSource` is set, the build fetches the source and selects products whose tags intersect with these |
-| `ctaMax` | number | `4` | Max number of CTAs to render |
-| `ctaSource` | string | `""` | URL of a public products catalog. When empty, CTAs are skipped unless `ctaProducts` is set |
 
 ### Environment variable overrides
 

@@ -128,4 +128,4 @@ You can either:
 - **Commit `content/` to the repo** — simplest, CI just builds. Recommended for most cases.
 - **Sync from a local path in CI** — only if the source is also accessible to CI (e.g. another repo as a submodule or a sync action).
 
-Most users commit `content/` to the wiki repo (e.g. `dsebastien/ai-wiki-pkm`). Their source vault stays private; the published subset gets committed and re-published on every change.
+Most users commit `content/` to the wiki repo. Their source vault stays private; the published subset gets committed and re-published on every change.

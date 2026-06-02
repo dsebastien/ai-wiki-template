@@ -73,12 +73,6 @@ Common causes:
 - Check the browser console. If `force-graph` failed to load, the CDN is blocked. Self-host the same way as Lunr.
 - If the graph data is present but no nodes render, `graph.json` is empty — same root cause as a small `discovered N docs` (no reachable notes).
 
-### CTAs missing on homepage
-
-- `ctaProducts` is empty AND `ctaTags` is empty → no CTAs shown (intentional).
-- `ctaTags` is set but the fetch fails → check the build log for `CTAs: failed to fetch …`. Causes: network down, CORS, the endpoint returned non-200.
-- `ctaProducts` is set but invalid → check JSON structure. Each entry needs at least `title` and `href`.
-
 ### CI build fails with "frozen lockfile" error
 
 Bun's CI install is strict. If your `bun.lock` is out of sync with `package.json`:

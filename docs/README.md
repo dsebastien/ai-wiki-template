@@ -18,7 +18,6 @@ Point it at an entry note, give it a folder of markdown files, optionally provid
 - **Client-side search** — prebuilt Lunr index, `/` to open
 - **Per-article TOC** + reading time
 - **5 swappable themes** (`default`, `paper`, `terminal`, `moss`, `stark`), each with light + dark modes
-- **Configurable CTAs** — static array or dynamic fetch from a public product catalog at build time
 - **Tailwind v4** styling via `@apply` over theme tokens — easy to customize
 - **Bun**-powered build (sub-100ms incremental, ~5s cold)
 - **GitHub Pages + Cloudflare Pages** deploy out of the box
@@ -44,7 +43,6 @@ The build is fully deterministic — same inputs, same output. No LLM rewriting.
 - [Configuration reference](configuration.md) — every field in `site.config.json`
 - [Content](content.md) — frontmatter, wikilinks, entry note, filtering
 - [Themes](themes.md) — the 5 built-in themes + how to add your own
-- [CTAs](ctas.md) — static and dynamic call-to-action cards
 - [Deploy](deploy.md) — GitHub Pages, Cloudflare Pages, custom domain
 - [Customizing](customizing.md) — tokens, components, templates
 - [Troubleshooting](troubleshooting.md) — common errors and fixes

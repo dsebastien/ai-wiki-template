@@ -12,7 +12,6 @@ A static-site template for cross-linked markdown knowledge bases. Built with Bun
 - Backlinks ("Referenced by") auto-computed
 - `browse.html` A-Z index, `graph.html` knowledge graph (canvas, force-directed, zoom-aware labels, focus mode), search modal (Lunr), per-article TOC + reading time
 - 5 swappable themes (`default`, `paper`, `terminal`, `moss`, `stark`) — each with light + dark modes
-- Product CTAs configurable per-site
 - Fully responsive
 
 ## Quick start
@@ -74,19 +73,7 @@ For Cloudflare Pages: build command `bun install && bun run build`, output dir `
   "heroEyebrow": "Living reference",
   "heroHeadline": "Example Wiki",
   "featured": ["another-article"],  // slugs to surface as cards
-  "ctaHero": { "label": "Browse", "href": "/browse.html" },
-
-  // CTAs — two modes:
-  //   (a) explicit:  set "ctaProducts" to a static array of cards
-  //   (b) dynamic:   leave "ctaProducts" empty, set "ctaTags" + "ctaSource"
-  //                  → the build fetches a JSON catalog and picks top N
-  //                  products whose tags intersect with ctaTags, ranked by
-  //                  bestValue > bestseller > featured > priority.
-  //                  Always-fresh on rebuild. No hardcoded prices.
-  "ctaTags": [],
-  "ctaMax": 4,
-  "ctaSource": "",            // your products-light.json URL (CORS-open)
-  "ctaProducts": []
+  "ctaHero": { "label": "Browse", "href": "/browse.html" }
 }
 ```
 

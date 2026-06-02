@@ -97,4 +97,3 @@ When you're happy: `git add content && git commit -m "wiki: refresh" && git push
 - [Configuration](configuration.md) — every field in `site.config.json`
 - [Content](content.md) — how notes get included or excluded
 - [Themes](themes.md) — pick a look or build your own
-- [CTAs](ctas.md) — turn the homepage and articles into a funnel

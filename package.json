@@ -10,7 +10,8 @@
     "build": "bun scripts/build.ts",
     "serve": "bun scripts/serve.ts",
     "dev": "bun run sync && bun run build && bun run serve",
-    "clean": "rm -rf public"
+    "clean": "rm -rf public",
+    "release": "bun scripts/release.ts"
   },
   "engines": { "bun": ">=1.1" },
   "dependencies": {

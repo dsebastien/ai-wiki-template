@@ -40,7 +40,7 @@ The fastest way to re-skin is to clone an existing theme. See [themes](themes.md
 
 ### Component CSS
 
-`src/styles/components.css` defines every component class (`.hero`, `.card`, `.cta-card`, `.prose h2`, etc.) using Tailwind v4 `@apply` over the theme tokens.
+`src/styles/components.css` defines every component class (`.hero`, `.card`, `.prose h2`, etc.) using Tailwind v4 `@apply` over the theme tokens.
 
 ```css
 .card {
@@ -142,6 +142,5 @@ Resolve conflicts in `site.config.json` if both branches changed it.
 
 - **No graph**: remove the link from `base.html` nav and delete `templates/graph.html`. The build still emits `graph.html` if the template exists; remove it from `build.ts` `renderShell` call too.
 - **No search**: drop the search modal block from `base.html` and remove the Lunr `<script>`. The build still generates `search-index.json` — that's fine, it's just unused.
-- **No CTAs**: leave `ctaProducts` empty and `ctaTags: []`. The build emits nothing for the CTA section.
 - **No theme toggle**: `themeToggle: false` in config.
 - **No browse page**: delete `templates/browse.html` and the route in `build.ts` (and the nav link in `base.html`).

@@ -300,15 +300,7 @@ for (const [from, tos] of outgoing) {
   }
 }
 
-// ---------- CTAs ----------
-
-type Product = {
-  title: string;
-  kicker?: string;
-  blurb?: string;
-  href: string;
-  badge?: string;
-};
+// ---------- hero CTA ----------
 
 const ctaHeroHtml = (() => {
   const c = CFG.ctaHero;
@@ -318,147 +310,6 @@ const ctaHeroHtml = (() => {
     : '';
   return `<a class="btn btn--primary" href="${escapeHtml(c.href)}">${escapeHtml(c.label)} →</a>${second}`;
 })();
-
-/**
- * Resolve the homepage / article CTAs.
- *
- * Priority:
- *   1. CFG.ctaProducts (explicit array)   — manual override
- *   2. CFG.ctaTags + CFG.ctaSource         — fetch a public products catalog
- *      (whatever URL you configure) and pick
- *      the top N matching products. Always-fresh, no hardcoded prices.
- *   3. []                                  — no CTA section
- */
-type LightProduct = {
-  id: string;
-  name: string;
-  shortDescription: string | null;
-  tags: string[];
-  mainCategory: string | null;
-  priceTier: string | null;
-  href: string;
-  badge: 'flagship' | 'bestseller' | 'featured' | null;
-  featured: boolean;
-  bestseller: boolean;
-  bestValue: boolean;
-  priority: number;
-};
-
-const SMALL_WORDS = new Set(['and', 'or', 'of', 'to', 'the', 'a', 'an', 'for', 'in']);
-const titleCase = (s: string) =>
-  s
-    .replace(/[-_]/g, ' ')
-    .split(' ')
-    .map((w, i) =>
-      i > 0 && SMALL_WORDS.has(w.toLowerCase())
-        ? w.toLowerCase()
-        : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-    )
-    .join(' ');
-
-const TIER_LABEL: Record<string, string> = {
-  free: 'Free',
-  subscription: 'Membership',
-  premium: 'Premium',
-  standard: '',
-  budget: '',
-  enterprise: 'Enterprise',
-};
-
-const toCta = (p: LightProduct): Product => {
-  const tier = p.priceTier ? TIER_LABEL[p.priceTier] || '' : '';
-  const cat = titleCase(p.mainCategory || '');
-  const kicker = [tier, cat].filter(Boolean).join(' · ');
-  return {
-    title: p.name,
-    kicker,
-    blurb: p.shortDescription || '',
-    href: p.href,
-    ...(p.badge ? { badge: titleCase(p.badge) } : {}),
-  };
-};
-
-const loadCtasFromEndpoint = async (): Promise<Product[]> => {
-  const tags: string[] = CFG.ctaTags || [];
-  const max: number = CFG.ctaMax || 4;
-  if (!tags.length) return [];
-  const url = CFG.ctaSource;
-  if (!url) return [];
-  try {
-    const r = await fetch(url, { signal: AbortSignal.timeout(10_000) });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const payload = (await r.json()) as { products: LightProduct[] };
-    const wanted = new Set(tags);
-    const ranked = payload.products
-      .map((p) => ({ p, match: p.tags.filter((t) => wanted.has(t)).length }))
-      .filter(({ match }) => match > 0)
-      .sort((a, b) => {
-        const rank = (x: { p: LightProduct; match: number }) =>
-          x.match * 1000 +
-          (x.p.bestValue ? 500 : 0) +
-          (x.p.bestseller ? 250 : 0) +
-          (x.p.featured ? 100 : 0) +
-          x.p.priority;
-        return rank(b) - rank(a);
-      })
-      .slice(0, max)
-      .map(({ p }) => toCta(p));
-    console.log(`CTAs: ${ranked.length} pulled from ${url} (filter: ${tags.join(', ')})`);
-    return ranked;
-  } catch (e) {
-    console.warn(`CTAs: failed to fetch ${url} (${(e as Error).message}); skipping CTA section`);
-    return [];
-  }
-};
-
-const products: Product[] =
-  Array.isArray(CFG.ctaProducts) && CFG.ctaProducts.length
-    ? CFG.ctaProducts
-    : await loadCtasFromEndpoint();
-
-const ctaProductsHtml = products.length
-  ? `
-<section class="container-wiki section section--cta">
-  <header class="section__header">
-    <h2>Go deeper</h2>
-    <p class="muted">Products and resources for the people behind this wiki.</p>
-  </header>
-  <div class="cta-cards">
-    ${products
-      .map(
-        (p) => `
-      <a class="cta-card" href="${escapeHtml(p.href)}" rel="noopener">
-        ${p.badge ? `<span class="cta-card__badge">${escapeHtml(p.badge)}</span>` : ''}
-        <span class="cta-card__kicker">${escapeHtml(p.kicker || '')}</span>
-        <h3>${escapeHtml(p.title)}</h3>
-        <p>${escapeHtml(p.blurb || '')}</p>
-        <span class="cta-card__more">Learn more →</span>
-      </a>`,
-      )
-      .join('')}
-  </div>
-</section>`
-  : '';
-
-const ctaArticleStripHtml = products.length
-  ? `
-<aside class="article-cta">
-  <h2>Enjoying the wiki?</h2>
-  <div class="article-cta__grid">
-    ${products
-      .slice(0, 2)
-      .map(
-        (p) => `
-      <a class="cta-card cta-card--compact" href="${escapeHtml(p.href)}" rel="noopener">
-        <span class="cta-card__kicker">${escapeHtml(p.kicker || '')}</span>
-        <h3>${escapeHtml(p.title)}</h3>
-        <p>${escapeHtml(p.blurb || '')}</p>
-      </a>`,
-      )
-      .join('')}
-  </div>
-</aside>`
-  : '';
 
 // ---------- shell ----------
 
@@ -550,7 +401,6 @@ const renderArticle = (d: Doc) => {
     toc_html: tocHtml,
     content_html: html,
     backlinks_html: backlinksHtml,
-    article_cta_html: ctaArticleStripHtml,
   });
 
   const description =
@@ -645,7 +495,6 @@ writeFileSync(
       source_count: sources.length,
       cta_hero_html: ctaHeroHtml,
       featured_html: featuredHtml,
-      cta_products_html: ctaProductsHtml,
     }),
     body_class: 'page page--home',
   }),
