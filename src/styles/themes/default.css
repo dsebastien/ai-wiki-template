@@ -2,7 +2,7 @@
  * Neutral GitHub-inspired palette — dark slate background + blue accent + Inter.
  * Used as the out-of-the-box look. Copy this file as a starting point to retheme. */
 
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root,
 :root[data-mode='dark'] {

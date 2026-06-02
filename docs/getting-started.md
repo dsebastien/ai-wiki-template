@@ -45,7 +45,7 @@ Open `site.config.json` and edit at least:
   "author": "Your Name",
   "authorUrl": "https://you.example.com",
   "entryNote": "content/Welcome.md",
-  "theme": "knowii",
+  "theme": "default",
   "heroHeadline": "My Wiki",
   "heroEyebrow": "Living reference"
 }

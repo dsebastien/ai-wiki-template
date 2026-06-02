@@ -66,7 +66,7 @@ const CONTENT_DIR = CFG.contentDir
 
 const FILTER: Record<string, unknown> = CFG.filter || {};
 const TITLE_PREFIX: string = CFG.titlePrefix || '';
-const THEME = (CFG.theme as string) || 'knowii';
+const THEME = (CFG.theme as string) || 'default';
 const DEFAULT_MODE = (CFG.defaultMode as string) === 'light' ? 'light' : 'dark';
 const THEME_TOGGLE = CFG.themeToggle !== false;
 
@@ -325,7 +325,7 @@ const ctaHeroHtml = (() => {
  * Priority:
  *   1. CFG.ctaProducts (explicit array)   — manual override
  *   2. CFG.ctaTags + CFG.ctaSource         — fetch a public products catalog
- *      (default: https://store.dsebastien.net/products-light.json) and pick
+ *      (whatever URL you configure) and pick
  *      the top N matching products. Always-fresh, no hardcoded prices.
  *   3. []                                  — no CTA section
  */
@@ -382,7 +382,8 @@ const loadCtasFromEndpoint = async (): Promise<Product[]> => {
   const tags: string[] = CFG.ctaTags || [];
   const max: number = CFG.ctaMax || 4;
   if (!tags.length) return [];
-  const url = CFG.ctaSource || 'https://store.dsebastien.net/products-light.json';
+  const url = CFG.ctaSource;
+  if (!url) return [];
   try {
     const r = await fetch(url, { signal: AbortSignal.timeout(10_000) });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);

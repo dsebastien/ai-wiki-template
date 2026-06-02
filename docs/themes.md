@@ -5,13 +5,13 @@ nav_order: 5
 
 # Themes
 
-Set `"theme": "<name>"` in `site.config.json`. The build copies the matching theme file from `src/styles/themes/` to `src/styles/active-theme.css` at build time. Tailwind then compiles everything into `public/css/style.css`.
+Set `"theme": "<name>"` in `site.config.json` (default: `default`). The build copies the matching theme file from `src/styles/themes/` to `src/styles/active-theme.css` at build time. Tailwind then compiles everything into `public/css/style.css`.
 
 ### Built-in themes
 
 | Theme | Vibe | Default mode | Fonts |
 |---|---|---|---|
-| `knowii` | Cool slate background + hot pink accent | dark | Noto Sans |
+| `default` | GitHub-inspired dark slate + blue accent | dark | Inter |
 | `paper` | Warm off-white + dark ink + serif display | light | Fraunces + Inter |
 | `terminal` | Phosphor green on black + monospace | dark | JetBrains Mono |
 | `moss` | Forest green + warm beige + amber accent | dark | Source Serif + Source Sans |

@@ -11,7 +11,7 @@ A static-site template for cross-linked markdown knowledge bases. Built with Bun
 - One HTML page per note, with `[[wikilinks]]` resolved across the corpus
 - Backlinks ("Referenced by") auto-computed
 - `browse.html` A-Z index, `graph.html` knowledge graph (canvas, force-directed, zoom-aware labels, focus mode), search modal (Lunr), per-article TOC + reading time
-- 5 swappable themes (`knowii`, `paper`, `terminal`, `moss`, `stark`) — each with light + dark modes
+- 5 swappable themes (`default`, `paper`, `terminal`, `moss`, `stark`) — each with light + dark modes
 - Product CTAs configurable per-site
 - Fully responsive
 
@@ -66,7 +66,7 @@ For Cloudflare Pages: build command `bun install && bun run build`, output dir `
   "brandUrl": "",
 
   // theme
-  "theme": "knowii",          // knowii | paper | terminal | moss | stark
+  "theme": "default",         // default | paper | terminal | moss | stark
   "themeToggle": true,        // show light/dark toggle?
   "defaultMode": "dark",      // initial mode
 
@@ -85,7 +85,7 @@ For Cloudflare Pages: build command `bun install && bun run build`, output dir `
   //                  Always-fresh on rebuild. No hardcoded prices.
   "ctaTags": [],
   "ctaMax": 4,
-  "ctaSource": "https://store.dsebastien.net/products-light.json",
+  "ctaSource": "",            // your products-light.json URL (CORS-open)
   "ctaProducts": []
 }
 ```
@@ -94,7 +94,7 @@ For Cloudflare Pages: build command `bun install && bun run build`, output dir `
 
 | Theme    | Vibe                                          | Default mode |
 | -------- | --------------------------------------------- | ------------ |
-| knowii   | Cool slate + hot pink + Noto Sans             | dark         |
+| default  | GitHub-inspired dark slate + blue accent      | dark         |
 | paper    | Warm off-white + dark ink + serif display     | light        |
 | terminal | Phosphor green on black + JetBrains Mono      | dark         |
 | moss     | Forest green + beige + amber + serif          | dark         |

@@ -12,46 +12,41 @@ Everything site-specific lives in `site.config.json` at the repo root. The build
 ```jsonc
 {
   // Identity
-  "siteTitle": "PKM Wiki",
-  "siteTagline": "A living reference on Personal Knowledge Management.",
-  "siteUrl": "https://pkm.dsebastien.net",
-  "author": "Sébastien Dubois",
-  "authorUrl": "https://www.dsebastien.net",
-  "brandName": "Knowii",
-  "brandUrl": "https://www.knowii.net",
-  "cname": "pkm.dsebastien.net",
+  "siteTitle": "My Wiki",
+  "siteTagline": "A living reference, synthesized from notes and practice.",
+  "siteUrl": "https://mywiki.example.com",
+  "author": "Jane Doe",
+  "authorUrl": "https://janedoe.example.com",
+  "brandName": "",
+  "brandUrl": "",
+  "cname": "mywiki.example.com",
 
   // Corpus discovery
-  "entryNote": "content/AI Wiki - PKM - Index.md",
+  "entryNote": "content/Welcome.md",
   "contentDir": "content",
-  "contentSource": "/home/me/vault/Wikis/PKM",
+  "contentSource": "",
   "filter": { "public_note": true },
-  "titlePrefix": "AI Wiki - PKM - ",
-  "syncSkipPatterns": ["^AI Wiki - PKM - Log"],
+  "titlePrefix": "",
+  "syncSkipPatterns": [],
 
   // Theme
-  "theme": "knowii",
+  "theme": "default",
   "themeToggle": true,
   "defaultMode": "dark",
 
   // Homepage hero
-  "heroEyebrow": "A living PKM wiki",
-  "heroHeadline": "Think clearly. Build a system that thinks with you.",
-  "featured": [
-    "personal-knowledge-management",
-    "zettelkasten-method",
-    "atomic-notes"
-  ],
+  "heroEyebrow": "Living reference",
+  "heroHeadline": "My Wiki",
+  "featured": ["welcome", "another-article"],
   "ctaHero": {
     "label": "Browse all articles",
-    "href": "/browse.html",
-    "secondary": { "label": "Start with PKM 101", "href": "/personal-knowledge-management.html" }
+    "href": "/browse.html"
   },
 
   // CTAs (see ctas.md for full details)
-  "ctaTags": ["pkm", "obsidian"],
+  "ctaTags": [],
   "ctaMax": 4,
-  "ctaSource": "https://store.dsebastien.net/products-light.json",
+  "ctaSource": "",
   "ctaProducts": []
 }
 ```
@@ -65,7 +60,7 @@ Everything site-specific lives in `site.config.json` at the repo root. The build
 | `siteUrl` | string | `""` | Canonical base URL (used in `<link rel=canonical>` and sitemap.xml). Override at build time with `SITE_URL=` env |
 | `author` | string | `""` | Shown in the footer ("Curated by …"). Optional |
 | `authorUrl` | string | `""` | Link target for the author name |
-| `brandName` | string | `""` | Optional brand line in the footer (e.g. `"Knowii"`) |
+| `brandName` | string | `""` | Optional brand line in the footer |
 | `brandUrl` | string | `""` | Link target for the brand |
 | `cname` | string | `""` | If set, writes `public/CNAME` for GitHub Pages custom domains |
 
@@ -77,14 +72,14 @@ Everything site-specific lives in `site.config.json` at the repo root. The build
 | `contentDir` | string | `dirname(entryNote)` | Where the build looks for linked notes |
 | `contentSource` | string | `""` | Path read by `bun run sync` to copy markdown into `content/`. Skip if you commit `content/` directly |
 | `filter` | object | `{ "public_note": true }` | Frontmatter key/value gate. A note is included only if all key/value pairs match. Pass `{}` to disable filtering |
-| `titlePrefix` | string | `""` | Strip this prefix from filenames when generating slugs and display titles. Useful for naming conventions like `AI Wiki - X - <Title>` |
+| `titlePrefix` | string | `""` | Strip this prefix from filenames when generating slugs and display titles. Useful for naming conventions like `Wiki - X - <Title>` |
 | `syncSkipPatterns` | string[] | `[]` | List of regex patterns. Filenames matching any pattern are skipped by `bun run sync` |
 
 ### Theme
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `theme` | string | `"knowii"` | One of `knowii`, `paper`, `terminal`, `moss`, `stark`. See [themes](themes.md) |
+| `theme` | string | `"default"` | One of `default`, `paper`, `terminal`, `moss`, `stark`. See [themes](themes.md) |
 | `themeToggle` | bool | `true` | Show the light/dark toggle button in the header |
 | `defaultMode` | `"dark"` \| `"light"` | `"dark"` | Initial mode for new visitors (overridden by `localStorage` if user has toggled) |
 
@@ -106,9 +101,9 @@ See the dedicated [CTAs](ctas.md) page. Summary:
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `ctaProducts` | array | `[]` | Explicit, static CTA cards. When non-empty, used as-is |
-| `ctaTags` | string[] | `[]` | When `ctaProducts` is empty, the build fetches `ctaSource` and selects products whose tags intersect with these |
+| `ctaTags` | string[] | `[]` | When `ctaProducts` is empty and `ctaSource` is set, the build fetches the source and selects products whose tags intersect with these |
 | `ctaMax` | number | `4` | Max number of CTAs to render |
-| `ctaSource` | string | `https://store.dsebastien.net/products-light.json` | URL of the public products catalog the build fetches |
+| `ctaSource` | string | `""` | URL of a public products catalog. When empty, CTAs are skipped unless `ctaProducts` is set |
 
 ### Environment variable overrides
 
@@ -117,6 +112,4 @@ These environment variables take precedence over `site.config.json` values:
 | Env | Overrides | Notes |
 |---|---|---|
 | `SITE_URL` | `siteUrl` | Useful in CI where the URL is set per-environment |
-| `WIKI_SRC` | `contentSource` (for `sync` only) | One-shot override for the sync script |
-| `CONTENT_SRC` | same as `WIKI_SRC` | Alias |
-| `VAULT_ROOT` | base for relative `contentSource` | Defaults to `~/notesSeb` only as a legacy fallback in the sync script — prefer absolute paths in config |
+| `CONTENT_SRC` | `contentSource` (for `sync` only) | One-shot override for the sync script |

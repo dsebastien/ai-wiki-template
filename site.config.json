@@ -15,7 +15,7 @@
   "titlePrefix": "",
   "syncSkipPatterns": ["^Log\\."],
 
-  "theme": "knowii",
+  "theme": "default",
   "themeToggle": true,
   "defaultMode": "dark",
 
@@ -27,6 +27,6 @@
 
   "ctaTags": [],
   "ctaMax": 4,
-  "ctaSource": "https://store.dsebastien.net/products-light.json",
+  "ctaSource": "",
   "ctaProducts": []
 }

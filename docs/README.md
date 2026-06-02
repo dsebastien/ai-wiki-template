@@ -17,7 +17,7 @@ Point it at an entry note, give it a folder of markdown files, optionally provid
 - **Knowledge graph** — canvas-rendered force-directed graph with zoom-aware labels and focus mode
 - **Client-side search** — prebuilt Lunr index, `/` to open
 - **Per-article TOC** + reading time
-- **5 swappable themes** (`knowii`, `paper`, `terminal`, `moss`, `stark`), each with light + dark modes
+- **5 swappable themes** (`default`, `paper`, `terminal`, `moss`, `stark`), each with light + dark modes
 - **Configurable CTAs** — static array or dynamic fetch from a public product catalog at build time
 - **Tailwind v4** styling via `@apply` over theme tokens — easy to customize
 - **Bun**-powered build (sub-100ms incremental, ~5s cold)

@@ -15,7 +15,7 @@ src/
     main.css            # Tailwind v4 entry. @import order matters.
     components.css      # Component classes (.card, .hero, …) via @apply
     themes/             # 5 themes + your custom ones
-      knowii.css
+      default.css
       paper.css
       …
   templates/            # HTML templates (Mustache-style {{var}} placeholders)

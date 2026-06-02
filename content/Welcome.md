@@ -13,7 +13,7 @@ This is the **entry note** for the example site. The build crawls outward from h
    - `entryNote` — the markdown file the build starts from
    - `contentDir` — directory containing every reachable note (defaults to `entryNote`'s folder)
    - `filter` — frontmatter key/value gate (default: `{ "public_note": true }`)
-   - `theme` — one of `knowii`, `paper`, `terminal`, `moss`, `stark`
+   - `theme` — one of `default`, `paper`, `terminal`, `moss`, `stark`
    - branding, CTAs, hero copy
 3. Commit your notes into `content/` (or any directory and point `contentDir` at it).
 4. Push to `main`. The bundled workflow builds and deploys to GitHub Pages.
