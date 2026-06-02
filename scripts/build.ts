@@ -212,6 +212,17 @@ if (!entryDoc) {
 
 // BFS over wikilinks.
 const linkRe = /\[\[([^\]\n]+?)\]\]/g;
+
+// Mask fenced code blocks (```), inline code spans (`...`), and indented code
+// blocks so wikilinks inside them are never followed for discovery, counted in
+// the graph, or rendered as links. The marked extension below handles the
+// inline-rendering side of the same concern via the proper tokenizer.
+const stripCodeRegions = (md: string): string =>
+  md
+    .replace(/^([ \t]*)(```|~~~)[^\n]*\n[\s\S]*?\n\1\2[ \t]*$/gm, '')
+    .replace(/(^|[^`])(`+)(?!`)[\s\S]+?\2(?!`)/g, '$1')
+    .replace(/^(?: {4}|\t).*$/gm, '');
+
 const queue: Doc[] = [entryDoc];
 docs.set(entryDoc.slug, entryDoc);
 baseNameToDoc.set(entryDoc.baseName, entryDoc);
@@ -219,7 +230,7 @@ baseNameToDoc.set(entryDoc.displayTitle, entryDoc);
 
 while (queue.length) {
   const d = queue.shift()!;
-  for (const m of d.content.matchAll(linkRe)) {
+  for (const m of stripCodeRegions(d.content).matchAll(linkRe)) {
     const target = m[1].split('|')[0].trim();
     if (baseNameToDoc.has(target)) continue;
     const ref = allMd.get(target);
@@ -244,25 +255,46 @@ const stripDataview = (md: string) =>
     .replace(/<!--\s*SerializedQuery:[\s\S]*?-->/g, '')
     .replace(/<!--\s*SerializedQuery END\s*-->/g, '');
 
-const resolveWikilinks = (md: string, currentSlug: string) =>
-  md.replace(linkRe, (_, body: string) => {
-    const [target, alias] = body.split('|').map((s) => s.trim());
-    const display = alias || stripPrefix(target);
-    const found = baseNameToDoc.get(target);
-    if (!found) {
-      return `<a class="wikilink wikilink--missing" title="not yet published">${escapeHtml(display)}</a>`;
-    }
-    if (found.slug === currentSlug) {
-      return `<span class="wikilink wikilink--self">${escapeHtml(display)}</span>`;
-    }
-    return `<a class="wikilink" href="/${found.slug}.html">${escapeHtml(display)}</a>`;
-  });
+const renderWikilink = (body: string, currentSlug: string): string => {
+  const [target, alias] = body.split('|').map((s) => s.trim());
+  const display = alias || stripPrefix(target);
+  const found = baseNameToDoc.get(target);
+  if (!found) {
+    return `<a class="wikilink wikilink--missing" title="not yet published">${escapeHtml(display)}</a>`;
+  }
+  if (found.slug === currentSlug) {
+    return `<span class="wikilink wikilink--self">${escapeHtml(display)}</span>`;
+  }
+  return `<a class="wikilink" href="/${found.slug}.html">${escapeHtml(display)}</a>`;
+};
+
+// Marked inline extension. Because marked tokenizes code spans (`…`) and
+// fenced/indented code blocks before custom inline tokenizers run on their
+// contents, wikilinks inside code are left as literal text. This replaces the
+// old regex pre-pass that mangled `[[…]]` inside code samples.
+const wikilinkExt = (currentSlug: string) => ({
+  name: 'wikilink',
+  level: 'inline' as const,
+  start(src: string) {
+    const i = src.indexOf('[[');
+    return i < 0 ? undefined : i;
+  },
+  tokenizer(src: string) {
+    const m = /^\[\[([^\]\n]+?)\]\]/.exec(src);
+    if (!m) return undefined;
+    return { type: 'wikilink', raw: m[0], body: m[1] };
+  },
+  renderer(token: { body: string }) {
+    return renderWikilink(token.body, currentSlug);
+  },
+});
 
 const stripFirstH1 = (md: string) => md.replace(/^\s*#\s+.+\n+/, '');
 
-const makeMarked = () => {
+const makeMarked = (currentSlug: string) => {
   const m = new Marked({ gfm: true, breaks: false });
   m.use(gfmHeadingId());
+  m.use({ extensions: [wikilinkExt(currentSlug) as any] });
   return m;
 };
 
@@ -285,7 +317,7 @@ const extractToc = (html: string) => {
 const outgoing = new Map<string, Set<string>>();
 for (const d of docs.values()) {
   const targets = new Set<string>();
-  for (const m of d.content.matchAll(linkRe)) {
+  for (const m of stripCodeRegions(d.content).matchAll(linkRe)) {
     const target = m[1].split('|')[0].trim();
     const found = baseNameToDoc.get(target);
     if (found && found.slug !== d.slug) targets.add(found.slug);
@@ -366,8 +398,7 @@ const searchEntries: { id: string; title: string; body: string; kind: string }[]
 
 const renderArticle = (d: Doc) => {
   const md = stripFirstH1(stripDataview(d.content));
-  const withLinks = resolveWikilinks(md, d.slug);
-  const html = makeMarked().parse(withLinks) as string;
+  const html = makeMarked(d.slug).parse(md) as string;
   const toc = extractToc(html);
 
   const backlinks = [...(incoming.get(d.slug) || [])]
@@ -421,7 +452,7 @@ const renderArticle = (d: Doc) => {
     }),
   );
 
-  const plain = withLinks
+  const plain = html
     .replace(/<[^>]+>/g, ' ')
     .replace(/[#*`>]/g, ' ')
     .replace(/\s+/g, ' ')
