@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
-// Basic release script: bump version in package.json, commit, tag, push.
+// Basic release script: sync content (if configured), bump version in
+// package.json, commit, tag, push.
 //
 // Usage:
 //   bun scripts/release.ts            # patch bump (default)
@@ -8,8 +9,11 @@
 //   bun scripts/release.ts major      # 0.1.0 -> 1.0.0
 //   bun scripts/release.ts 1.2.3      # explicit version
 //
-// Pushes the commit and the tag. Downstream deploys (GitHub Pages, Cloudflare
-// Pages connected to the repo) react to the push automatically.
+// When site.config.json -> contentSource (or CONTENT_SRC) is set, runs `sync`
+// first so content/ reflects the latest source notes, then commits any content
+// changes separately before bumping the version. Pushes the commit and the
+// tag. Downstream deploys (GitHub Pages, Cloudflare Pages connected to the
+// repo) react to the push automatically.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -55,12 +59,34 @@ const run = (cmd: string, args: string[]): void => {
   }
 };
 
-// Refuse to release with a dirty tree.
-const status = spawnSync('git', ['status', '--porcelain'], { encoding: 'utf8' });
-if (status.stdout.trim()) {
-  console.error('working tree is dirty. Commit or stash before releasing.');
-  console.error(status.stdout);
+// Refuse to release with non-content changes pending — those should be a
+// deliberate commit, not swept into the release.
+const preStatus = spawnSync('git', ['status', '--porcelain'], { encoding: 'utf8' });
+const nonContentDirty = preStatus.stdout
+  .split('\n')
+  .filter((l) => l.trim() && !/^.{2} "?content\//.test(l));
+if (nonContentDirty.length > 0) {
+  console.error('working tree has non-content changes. Commit or stash before releasing.');
+  console.error(nonContentDirty.join('\n'));
   process.exit(1);
+}
+
+// If a content source is configured, sync and commit any resulting changes.
+const cfg = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
+const hasContentSource = Boolean(process.env.CONTENT_SRC || cfg.contentSource);
+if (hasContentSource) {
+  run('bun', ['run', 'sync']);
+  const postSync = spawnSync('git', ['status', '--porcelain', '--', 'content'], {
+    encoding: 'utf8',
+  });
+  if (postSync.stdout.trim()) {
+    run('git', ['add', 'content']);
+    run('git', ['commit', '-m', 'content: sync']);
+  } else {
+    console.log('content/ already up to date.');
+  }
+} else {
+  console.log('no contentSource configured — skipping sync.');
 }
 
 pkg.version = next;
