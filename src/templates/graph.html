@@ -1,0 +1,27 @@
+<section class="container-wiki section graph-section">
+  <header class="section__header">
+    <h1>Knowledge graph</h1>
+    <p class="muted">{{node_count}} concepts · {{edge_count}} links. Drag, scroll to zoom, click a node to open. Hover for a label.</p>
+  </header>
+  <div class="graph-toolbar">
+    <input type="search" id="graph-search" placeholder="Highlight nodes…" />
+    <label>
+      Min links
+      <input type="range" id="graph-min-degree" min="0" max="20" step="1" value="0" />
+      <span id="graph-min-degree-value">0</span>
+    </label>
+    <label><input type="checkbox" id="graph-show-sources" checked /> sources</label>
+    <label><input type="checkbox" id="graph-show-labels" /> always show labels</label>
+    <button id="graph-reset" class="btn btn--ghost btn--sm">Reset view</button>
+  </div>
+  <div id="graph" class="graph-canvas" aria-label="Interactive knowledge graph"></div>
+  <div class="graph-legend">
+    <span><span class="dot dot--article" style="background:var(--theme-ink-soft)"></span>article</span>
+    <span><span class="dot dot--source" style="background:var(--theme-accent-text)"></span>source</span>
+    <span><span class="dot dot--hub" style="background:var(--theme-accent); box-shadow:0 0 0 3px color-mix(in oklab, var(--theme-accent) 25%, transparent)"></span>hub (10+ links)</span>
+    <span class="muted">Click = open · Drag = move · Scroll = zoom · Shift+drag bg = lasso</span>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/force-graph@1.49.5/dist/force-graph.min.js" defer></script>
+<script src="/js/graph.js" defer></script>

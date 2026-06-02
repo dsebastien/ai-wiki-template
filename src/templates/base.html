@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-mode="{{default_mode}}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}" />
+  <link rel="canonical" href="{{canonical}}" />
+  <meta property="og:title" content="{{title}}" />
+  <meta property="og:description" content="{{description}}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{canonical}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  {{favicon_links_html}}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {{font_links_html}}
+  <link rel="stylesheet" href="/css/style.css" />
+  <script>
+    (function () {
+      var m = localStorage.getItem('mode');
+      if (m === 'light' || m === 'dark') document.documentElement.dataset.mode = m;
+    })();
+  </script>
+</head>
+<body class="{{body_class}}">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container-wiki site-header__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" />
+            <circle cx="16" cy="16" r="3" fill="currentColor" />
+            <circle cx="6" cy="10" r="2" fill="currentColor" />
+            <circle cx="26" cy="10" r="2" fill="currentColor" />
+            <circle cx="6" cy="22" r="2" fill="currentColor" />
+            <circle cx="26" cy="22" r="2" fill="currentColor" />
+            <path d="M16 16 L6 10 M16 16 L26 10 M16 16 L6 22 M16 16 L26 22" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+        </span>
+        <span class="brand__name">{{site_title}}</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/" class="nav-label">Home</a>
+        <a href="/browse.html" class="nav-label">Browse</a>
+        <a href="/graph.html" class="nav-label">Graph</a>
+        <a href="#" id="search-open" class="search-open" aria-label="Open search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span class="nav-label">Search</span>
+          <kbd class="nav-label">/</kbd>
+        </a>
+        {{mode_toggle_html}}
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">{{body}}</main>
+
+  <footer class="site-footer">
+    <div class="container-wiki site-footer__inner">
+      <div>
+        <p><strong>{{site_title}}</strong> — a living reference.</p>
+        <p class="muted">Built from notes in <a href="https://obsidian.md">Obsidian</a>. Last built {{built_at}}.</p>
+      </div>
+      <div>
+        {{footer_author_html}}
+      </div>
+    </div>
+  </footer>
+
+  <div id="search-modal" class="search-modal" hidden>
+    <div class="search-modal__backdrop" data-close></div>
+    <div class="search-modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+      <input type="search" id="search-input" class="search-input" placeholder="Search…" autocomplete="off" />
+      <ul id="search-results" class="search-results"></ul>
+      <div class="search-modal__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>⏎</kbd> open</span>
+        <span><kbd>Esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script>
+  <script src="/js/app.js" defer></script>
+</body>
+</html>

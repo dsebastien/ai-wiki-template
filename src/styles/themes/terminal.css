@@ -1,0 +1,45 @@
+/* Theme: terminal
+ * Retro phosphor terminal — pure black, green text, mono everywhere. */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root,
+:root[data-mode='dark'] {
+  --theme-font-sans: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --theme-font-display: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --theme-font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --theme-bg: #050a07;
+  --theme-bg-elev: #0a1410;
+  --theme-bg-elev-2: #102018;
+  --theme-ink: #d6ffe8;
+  --theme-ink-soft: rgba(214, 255, 232, 0.72);
+  --theme-ink-muted: rgba(214, 255, 232, 0.45);
+  --theme-line: rgba(80, 220, 130, 0.18);
+  --theme-line-strong: rgba(80, 220, 130, 0.35);
+  --theme-card-subtle: rgba(80, 220, 130, 0.06);
+  --theme-card-subtle-hover: rgba(80, 220, 130, 0.12);
+
+  --theme-accent: #2bff7c;
+  --theme-accent-text: #5cffa3;
+  --theme-accent-muted: #1bc05a;
+  --theme-success: #2bff7c;
+}
+
+:root[data-mode='light'] {
+  --theme-bg: #eef7f1;
+  --theme-bg-elev: #ffffff;
+  --theme-bg-elev-2: #e3f2e9;
+  --theme-ink: #0a2014;
+  --theme-ink-soft: rgba(10, 32, 20, 0.72);
+  --theme-ink-muted: rgba(10, 32, 20, 0.5);
+  --theme-line: rgba(10, 100, 50, 0.18);
+  --theme-line-strong: rgba(10, 100, 50, 0.32);
+  --theme-card-subtle: rgba(10, 100, 50, 0.05);
+  --theme-card-subtle-hover: rgba(10, 100, 50, 0.1);
+
+  --theme-accent: #0c8a3a;
+  --theme-accent-text: #096b2e;
+  --theme-accent-muted: #074d20;
+  --theme-success: #0c8a3a;
+}

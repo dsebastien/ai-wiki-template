@@ -1,0 +1,45 @@
+/* Theme: moss
+ * Calm forest study — deep forest green, warm beige text, amber accent. */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,800&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+:root,
+:root[data-mode='dark'] {
+  --theme-font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --theme-font-display: 'Source Serif 4', Georgia, serif;
+  --theme-font-mono: ui-monospace, Menlo, Consolas, monospace;
+
+  --theme-bg: #1d2a23;
+  --theme-bg-elev: #243429;
+  --theme-bg-elev-2: #2d3f33;
+  --theme-ink: #efe8d6;
+  --theme-ink-soft: rgba(239, 232, 214, 0.75);
+  --theme-ink-muted: rgba(239, 232, 214, 0.5);
+  --theme-line: rgba(239, 232, 214, 0.1);
+  --theme-line-strong: rgba(239, 232, 214, 0.2);
+  --theme-card-subtle: rgba(239, 232, 214, 0.05);
+  --theme-card-subtle-hover: rgba(239, 232, 214, 0.1);
+
+  --theme-accent: #d9a85e;
+  --theme-accent-text: #e8bb73;
+  --theme-accent-muted: #b88846;
+  --theme-success: #7fbe8a;
+}
+
+:root[data-mode='light'] {
+  --theme-bg: #f3f0e6;
+  --theme-bg-elev: #ffffff;
+  --theme-bg-elev-2: #e9e4d3;
+  --theme-ink: #1d2a23;
+  --theme-ink-soft: rgba(29, 42, 35, 0.72);
+  --theme-ink-muted: rgba(29, 42, 35, 0.5);
+  --theme-line: rgba(29, 42, 35, 0.12);
+  --theme-line-strong: rgba(29, 42, 35, 0.22);
+  --theme-card-subtle: rgba(29, 42, 35, 0.04);
+  --theme-card-subtle-hover: rgba(29, 42, 35, 0.08);
+
+  --theme-accent: #a96f17;
+  --theme-accent-text: #8a5810;
+  --theme-accent-muted: #6e4407;
+  --theme-success: #2f6e3d;
+}

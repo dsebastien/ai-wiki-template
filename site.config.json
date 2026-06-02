@@ -1,0 +1,32 @@
+{
+  "siteTitle": "Example Wiki",
+  "siteTagline": "A living reference, synthesized from notes and practice.",
+  "siteUrl": "",
+  "author": "",
+  "authorUrl": "",
+  "brandName": "",
+  "brandUrl": "",
+  "cname": "",
+
+  "entryNote": "content/Welcome.md",
+  "contentDir": "content",
+  "contentSource": "",
+  "filter": { "public_note": true },
+  "titlePrefix": "",
+  "syncSkipPatterns": ["^Log\\."],
+
+  "theme": "knowii",
+  "themeToggle": true,
+  "defaultMode": "dark",
+
+  "heroEyebrow": "Living reference",
+  "heroHeadline": "Example Wiki",
+
+  "featured": [],
+  "ctaHero": { "label": "Browse all articles", "href": "/browse.html" },
+
+  "ctaTags": [],
+  "ctaMax": 4,
+  "ctaSource": "https://store.dsebastien.net/products-light.json",
+  "ctaProducts": []
+}

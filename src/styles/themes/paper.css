@@ -1,0 +1,45 @@
+/* Theme: paper
+ * Academic / digital-garden — warm off-white, dark ink, serif display, terracotta accent. */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root,
+:root[data-mode='light'] {
+  --theme-font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --theme-font-display: 'Fraunces', Georgia, serif;
+  --theme-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --theme-bg: #f7f3ec;
+  --theme-bg-elev: #fffaf0;
+  --theme-bg-elev-2: #fff5e3;
+  --theme-ink: #2a1f15;
+  --theme-ink-soft: rgba(42, 31, 21, 0.75);
+  --theme-ink-muted: rgba(42, 31, 21, 0.55);
+  --theme-line: rgba(42, 31, 21, 0.12);
+  --theme-line-strong: rgba(42, 31, 21, 0.22);
+  --theme-card-subtle: rgba(42, 31, 21, 0.04);
+  --theme-card-subtle-hover: rgba(42, 31, 21, 0.08);
+
+  --theme-accent: #b8501f;
+  --theme-accent-text: #9a3f12;
+  --theme-accent-muted: #7d3206;
+  --theme-success: #2f6e3d;
+}
+
+:root[data-mode='dark'] {
+  --theme-bg: #1c1814;
+  --theme-bg-elev: #261f18;
+  --theme-bg-elev-2: #31281f;
+  --theme-ink: #f3ead8;
+  --theme-ink-soft: rgba(243, 234, 216, 0.78);
+  --theme-ink-muted: rgba(243, 234, 216, 0.5);
+  --theme-line: rgba(243, 234, 216, 0.1);
+  --theme-line-strong: rgba(243, 234, 216, 0.22);
+  --theme-card-subtle: rgba(243, 234, 216, 0.05);
+  --theme-card-subtle-hover: rgba(243, 234, 216, 0.1);
+
+  --theme-accent: #e0894f;
+  --theme-accent-text: #f0a166;
+  --theme-accent-muted: #c47038;
+  --theme-success: #5fb56a;
+}
